@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRCodeWPF.NET6", "QRCodeWPF.NET6\QRCodeWPF.NET6.csproj", "{29DCE8B4-BAD2-46CB-981E-302AE481AEBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29DCE8B4-BAD2-46CB-981E-302AE481AEBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29DCE8B4-BAD2-46CB-981E-302AE481AEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29DCE8B4-BAD2-46CB-981E-302AE481AEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29DCE8B4-BAD2-46CB-981E-302AE481AEBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1273AD6-5798-406B-A087-A5BF10C753EF}
+	EndGlobalSection
+EndGlobal
