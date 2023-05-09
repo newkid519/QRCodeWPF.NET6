@@ -48,10 +48,13 @@ namespace QRCodeWPF.NET6
             FilterInfoCollection filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             var device = filterInfoCollection.Cast<FilterInfo>().FirstOrDefault();
             VideoCaptureDevice videoCaptureDevice = new VideoCaptureDevice(device.MonikerString);
+
+            videoCaptureDevice.VideoResolution = videoCaptureDevice.VideoCapabilities[6];
             videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
             videoCaptureDevice.Start();
         }
 
+        int counter = 15;
         private void VideoCaptureDevice_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
         {            
             MemoryStream ms = new MemoryStream();
@@ -65,7 +68,16 @@ namespace QRCodeWPF.NET6
             Dispatcher.BeginInvoke(new Action(() => {
                 qrCode.Source = bitmapImage;
             }));
-            System.Diagnostics.Debug.WriteLine(decodeBarcodeText(eventArgs.Frame));
+
+            if (counter-- == 0)
+            {
+                counter = 15;
+                var result = decodeBarcodeText(eventArgs.Frame);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    System.Diagnostics.Debug.WriteLine(result);
+                }
+            }
         }
 
         private string decodeBarcodeText(Bitmap barcodeBitmap)
