@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AForge.Video.DirectShow;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -41,9 +42,30 @@ namespace QRCodeWPF.NET6
                 Options = new QrCodeEncodingOptions { Margin = 1, Height = 300, Width = 300, CharacterSet = "UTF-8" }
             };
 
-            var result = writer.Write("sessionIdsessionIdsessionIdsessionIdsessionIdsessionIdsessionIdsessionIdsessionId");
-            result.Save("123.png", ImageFormat.Png);
-            string abc = decodeBarcodeText(result);            
+            //var result = writer.Write("sessionIdsessionIdsessionIdsessionIdsessionIdsessionIdsessionIdsessionIdsessionId");
+            //result.Save("123.png", ImageFormat.Png);
+            //string abc = decodeBarcodeText(result);
+            FilterInfoCollection filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            var device = filterInfoCollection.Cast<FilterInfo>().FirstOrDefault();
+            VideoCaptureDevice videoCaptureDevice = new VideoCaptureDevice(device.MonikerString);
+            videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
+            videoCaptureDevice.Start();
+        }
+
+        private void VideoCaptureDevice_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
+        {            
+            MemoryStream ms = new MemoryStream();
+            eventArgs.Frame.Save(ms, ImageFormat.Png);
+            ms.Seek(0, SeekOrigin.Begin);
+            var bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.StreamSource = ms;
+            bitmapImage.EndInit();
+            bitmapImage.Freeze();
+            Dispatcher.BeginInvoke(new Action(() => {
+                qrCode.Source = bitmapImage;
+            }));
+            System.Diagnostics.Debug.WriteLine(decodeBarcodeText(eventArgs.Frame));
         }
 
         private string decodeBarcodeText(Bitmap barcodeBitmap)
